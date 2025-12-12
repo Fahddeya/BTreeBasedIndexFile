@@ -668,7 +668,7 @@ int main()
     }
 
     else {
-
+        OpenFile((char*)filename);
     }
     do
     {
