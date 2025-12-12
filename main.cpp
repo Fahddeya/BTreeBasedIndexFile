@@ -49,7 +49,6 @@ vector<pair<int, int>> allData(int Row)
 {
     int Column = 1;
     vector<pair<int, int>> nodeData;
-    // get all the data of the node and sort it to inset the new element node
     while (Column != (2 * m + 1))
     {
         if (getDataFromFile(Row, Column) == -1 || getDataFromFile(Row, Column) == -1)
@@ -179,13 +178,8 @@ int SearchARecord(int indexNumber)
 int toAdd;
 int insetAfterSplit(int indexNumber, int Row)
 {
-    // this function made to force the adding
-    // the difference between this and the other insert function is
-    // the other one add only in leaf node this adds whatever it's a leaf node or internal node
-    // because when I split i add to the parent directly
     int Column = 1;
     vector<pair<int, int>> nodeData;
-    // get all the data of the node and sort it to inset the new element node
     while (Column != (2 * m + 1))
     {
         if (getDataFromFile(Row, Column) == -1)
@@ -299,8 +293,6 @@ int insertInIndex(int indexNumber, int offset, int Row)
             }
             if (Row == 1)
             {
-                // in the root
-                // we will split and write new 2 nodes
                 int firstEmpty = getDataFromFile(0, 1);
                 if (firstEmpty == -1)
                 {
@@ -308,7 +300,6 @@ int insertInIndex(int indexNumber, int offset, int Row)
                 }
                 int secondEmpty = getDataFromFile(0, 1) + 1;
                 setDataInFile(secondEmpty + 1, 0, 1);
-                // set the 2 nodes of the root after splitting
                 vector<pair<int, int>> root;
                 root.push_back({firstSplit[firstSplit.size() - 1].first, firstEmpty});
                 root.push_back({secondSplit[secondSplit.size() - 1].first, secondEmpty});
@@ -438,9 +429,6 @@ int deleteIndex(int indexNumber, int Row, int parentRow)
         }
         else
         {
-            // here we decide if we will do redistribution or merging
-            // to decide we have to se the siblings
-            // all siblings
             if (parentRow != -1)
             {
                 vector<pair<int, int>> dataOfParent = allData(parentRow);
@@ -455,9 +443,6 @@ int deleteIndex(int indexNumber, int Row, int parentRow)
                 {
                     if (siblings[i].first == nodeData.back().first)
                     {
-                        // means we found the node
-                        // now we have to assign the siblings
-                        // first check if the element is leftmost of rightmost
                         if (i - 1 >= 0)
                         {
                             leftSibling = siblings[i - 1];
@@ -471,10 +456,10 @@ int deleteIndex(int indexNumber, int Row, int parentRow)
                         break;
                     }
                 }
-                // check if left sibling has more elements
+            
                 vector<pair<int, int>> leftSiblingChildren = allData(leftSibling.second);
                 vector<pair<int, int>> rightSiblingChildren = allData(rightSibling.second);
-                // delete the element from the node
+
                 int count = 0;
                 for (auto i : nodeData)
                 {
@@ -514,11 +499,7 @@ int deleteIndex(int indexNumber, int Row, int parentRow)
                 }
                 else
                 {
-                    // in this case we will apply merging because none of the siblings
-                    // can make redistribution
-                    // delete the node form the parent node
-                    // add the remaining elements to the left node or right node
-                    // but we will add to left
+                    
                     for (auto i : nodeData)
                     {
                         leftSiblingChildren.push_back(i);
