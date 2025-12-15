@@ -664,7 +664,24 @@ int main()
     int choice ;
     cin >> choice;
     if(choice == 1){
-        CreateIndexFileFile ((char*)filename, 10, 5 );
+        cout << "default parameters (rows and keys) or input\n";
+        cout << "1) default\n";
+        cout << "2) output\n";
+        int input ;
+        cin >> input;
+        if(input == 1){
+            CreateIndexFileFile ((char*)filename, 10, 5 );
+        }
+        else{
+            int rows,keys;
+            cout << "number of nodes: ";
+            cin >> rows;
+            cout << "number of keys: ";
+            cin >> keys;
+            CreateIndexFileFile ((char*)filename, rows, keys);
+
+        }
+        
     }
 
     else {
@@ -676,7 +693,8 @@ int main()
         cout << "2) remove\n";
         cout << "3) search\n";
         cout << "4) test case\n";
-        cout << "5) exit\n";
+        cout << "5) display\n";
+        cout << "6) exit\n";
         cin >> choice;
         int key , ref;
         switch (choice)
@@ -701,10 +719,15 @@ int main()
         case 4:
             completedTests();
             break;
+        case 5:
+            DisplayIndexFileContent();
+            break;
+        case 6:
+            break;
         default:
             cout << "error\n";
             break;
         }
-    } while (choice != 5);
+    } while (choice != 6);
     index.close();
 }
